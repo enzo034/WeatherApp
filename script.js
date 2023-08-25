@@ -33,7 +33,7 @@ async function checkWeather(city) {
 }
 
 function outputActualTime(data) {
-    const output = document.querySelector(".card output");
+    const output = document.querySelector(".clock output");
     
     if (intervalId) {
         clearInterval(intervalId);
