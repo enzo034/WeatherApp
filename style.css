@@ -11,8 +11,7 @@ body {
     background: linear-gradient(135deg, #000000, #5b548a);
 }
 
-.grid-container
-{
+.grid-container {
     /* display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -23,8 +22,7 @@ body {
     justify-items: center;
 }
 
-.flexbox-item
-{
+.flexbox-item {
     margin-top: 5vh;
     background: #8a9ac35d;
     color: #000000;
@@ -149,46 +147,70 @@ body {
     font-size: 60px;
 }
 
-.list
-{
+.list {
+    position: relative;
     width: 325px;
     height: fit-content;
 }
 
-.list ul
-{
+.list ul {
     text-align: left;
     list-style: none;
 }
 
-.list h2 {
+.list h3 {
     margin: 10px;
     border: 2px solid #8a9ac35d;
     padding: 8px;
     background: transparent;
     border-radius: 15px;
-    text-align: center;
+    text-align: left;
 }
 
-
-.list ul li
+.list button
 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    right: 16px;
+    top: 16px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.list button::before {
+    content: "Delete all cities";
+    position: absolute;
+    bottom: -55px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.list button:hover::before {
+    opacity: 1;
+}
+
+.list ul li {
+    border: 0;
     font-size: 20px;
     padding: 10px 30px 10px;
-}
-
-.forecast
-{
-    width: 300px;
-    height: auto;
-}
-
-.forecast h2{
-    margin: 10px;
-    border: 2px solid #8a9ac35d;
-    padding: 8px;
-    background: transparent;
-    border-radius: 15px;
+    background-color: #7e7eaa2a;
+    border-radius: 20px;
+    margin: 3px;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
