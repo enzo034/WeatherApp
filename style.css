@@ -11,15 +11,29 @@ body {
     background: linear-gradient(135deg, #000000, #5b548a);
 }
 
+.grid-container {
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    justify-items: center;
+}
+
+.flexbox-item {
+    margin-top: 5vh;
+    background: #8a9ac35d;
+    color: #000000;
+    border-radius: 20px;
+    text-align: center;
+}
+
 .card {
     width: 90%;
     max-width: 470px;
-    background: #8a9ac35d;
-    color: #000000;
-    margin: 50px auto 0;
-    border-radius: 20px;
     padding: 40px 35px;
-    text-align: center;
 }
 
 .card h1 {
@@ -123,15 +137,84 @@ body {
 }
 
 .clock {
-    position: relative;
-    left: 40vh;
-    bottom: 45vh;
-    background: #8a9ac35d;
-    color: #000000;
-    border-radius: 20px;
-    text-align: center;
+    width: 250px;
+    padding: 5px;
+    height: 90px;
+    display: none;
 }
 
 .clock output {
     font-size: 60px;
+}
+
+.list {
+    position: relative;
+    width: 325px;
+    height: fit-content;
+}
+
+.list ul {
+    text-align: left;
+    list-style: none;
+}
+
+.list h3 {
+    margin: 10px;
+    border: 2px solid #8a9ac35d;
+    padding: 8px;
+    background: transparent;
+    border-radius: 15px;
+    text-align: left;
+}
+
+.list button
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    right: 16px;
+    top: 16px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.list button::before {
+    content: "Delete all cities";
+    position: absolute;
+    bottom: -55px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.list button:hover::before {
+    opacity: 1;
+}
+
+.list ul li {
+    border: 0;
+    font-size: 20px;
+    padding: 10px 30px 10px;
+    background-color: #7e7eaa2a;
+    border-radius: 20px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
 }
