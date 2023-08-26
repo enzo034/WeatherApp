@@ -11,15 +11,31 @@ body {
     background: linear-gradient(135deg, #000000, #5b548a);
 }
 
+.grid-container
+{
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    justify-items: center;
+}
+
+.flexbox-item
+{
+    margin-top: 5vh;
+    background: #8a9ac35d;
+    color: #000000;
+    border-radius: 20px;
+    text-align: center;
+}
+
 .card {
     width: 90%;
     max-width: 470px;
-    background: #8a9ac35d;
-    color: #000000;
-    margin: 50px auto 0;
-    border-radius: 20px;
     padding: 40px 35px;
-    text-align: center;
 }
 
 .card h1 {
@@ -123,15 +139,60 @@ body {
 }
 
 .clock {
-    position: relative;
-    left: 40vh;
-    bottom: 45vh;
-    background: #8a9ac35d;
-    color: #000000;
-    border-radius: 20px;
-    text-align: center;
+    width: 250px;
+    padding: 5px;
+    height: 90px;
+    display: none;
 }
 
 .clock output {
     font-size: 60px;
+}
+
+.list
+{
+    width: 325px;
+    height: fit-content;
+}
+
+.list ul
+{
+    text-align: left;
+    list-style: none;
+}
+
+.list h2 {
+    margin: 10px;
+    border: 2px solid #8a9ac35d;
+    padding: 8px;
+    background: transparent;
+    border-radius: 15px;
+    text-align: center;
+}
+
+
+.list ul li
+{
+    font-size: 20px;
+    padding: 10px 30px 10px;
+}
+
+.forecast
+{
+    width: 300px;
+    height: auto;
+}
+
+.forecast h2{
+    margin: 10px;
+    border: 2px solid #8a9ac35d;
+    padding: 8px;
+    background: transparent;
+    border-radius: 15px;
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
 }

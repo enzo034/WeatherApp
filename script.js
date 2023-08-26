@@ -1,6 +1,8 @@
 const apiKey = "bfd8982d9bd4680fcb4ad78530593ded";
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
+const listContainer = document.getElementById("list-container");
+
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
@@ -14,6 +16,7 @@ async function checkWeather(city) {
     if (response.status == 404) {
         document.querySelector(".error").style.display = "block";
         document.querySelector(".weather").style.display = "none";
+        document.querySelector(".clock").style.display = "none";
     }
     else {
         
@@ -26,9 +29,11 @@ async function checkWeather(city) {
         changeWeatherImage(data);
 
         document.querySelector(".weather").style.display = "block";
+        document.querySelector(".clock").style.display = "block";
         document.querySelector(".error").style.display = "none";
 
         outputActualTime(data);
+        addCityToList(data);
     }
 }
 
@@ -63,6 +68,14 @@ function changeWeatherImage(data) {
     else if (data.weather[0].main == "Mist") weatherIcon.src = "img/mist.png";
 }
 
+function addCityToList(data)
+{
+    let li = document.createElement("li");
+
+    li.innerHTML = data.name;
+
+    listContainer.appendChild(li);
+}
 
 //To search with the Enter key
 searchBox.addEventListener("keypress", function (e) {

@@ -10,41 +10,53 @@
 
 <body>
 
-    <div class="card">
-        <h1>Weather App<img src="img/clear.png"></h1>
-        <div class="search">
-            <input type="text" placeholder="Enter city name" spellcheck="false">
-            <button><img src="img/search.png"></button>
+    <div class="grid-container">
+        
+        <div class="flexbox-item forecast">
+            <h2>5 day weather forecast</h2>
         </div>
-        <div class="error">
-            <p>Invalid city name</p>
-        </div>
-        <div class="weather">
-            <img src="img/rain.png" class="weather-icon">
-            <h1 class="temp">22°c</h1>
-            <h2 class="city">New Tork</h2>
-            <div class="details">
-                <div class="col">
-                    <img src="img/humidity.png">
-                    <div>
-                        <p class="humidity">50%</p>
-                        <p>Humidity</p>
+        <div class="flexbox-item card">
+            <h1>Weather App<img src="img/clear.png"></h1>
+            <div class="search">
+                <input type="text" placeholder="Enter city name" spellcheck="false">
+                <button><img src="img/search.png"></button>
+            </div>
+            <div class="error">
+                <p>Invalid city name</p>
+            </div>
+            <div class="weather">
+                <img src="img/rain.png" class="weather-icon">
+                <h1 class="temp">22°c</h1>
+                <h2 class="city">New Tork</h2>
+                <div class="details">
+                    <div class="col">
+                        <img src="img/humidity.png">
+                        <div>
+                            <p class="humidity">50%</p>
+                            <p>Humidity</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <img src="img/wind.png">
-                    <div>
-                        <p class="wind">15 km/h</p>
-                        <p>Wind Speed</p>
+                    <div class="col">
+                        <img src="img/wind.png">
+                        <div>
+                            <p class="wind">15 km/h</p>
+                            <p>Wind Speed</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="clock">
-            <p>Time in the actual city</p>
+        <div class="flexbox-item list">
+            <h2>Previous searched cities</h2>
+            <ul id="list-container"> 
+            </ul>
+        </div>
+        <div class="flexbox-item clock">
+            <p>Time in the searched city</p>
             <output></output>
         </div>
     </div>
+
 
 
     <script src="https://moment.github.io/luxon/global/luxon.min.js">
