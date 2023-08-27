@@ -1,6 +1,9 @@
 const apiKey = "bfd8982d9bd4680fcb4ad78530593ded";
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
+const apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat="; //-34&lon=-64&appid=bfd8982d9bd4680fcb4ad78530593ded";
+
+const forecastContainer = document.getElementById("forecast-container");
 const listContainer = document.getElementById("list-container");
 const deleteAllButton = document.getElementById("delete-all");
 
@@ -10,32 +13,52 @@ const weatherIcon = document.querySelector(".weather-icon");
 
 let intervalId;
 
+//Main function to check the weather
 async function checkWeather(city) {
 
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
 
     if (response.status == 404) {
-        document.querySelector(".error").style.display = "block";
-        document.querySelector(".weather").style.display = "none";
-        document.querySelector(".clock").style.display = "none";
+        showError();
     }
     else {
-
         var data = await response.json();
-
-
         console.log(data);
-
-        changeWeatherData(data);
-        changeWeatherImage(data);
-        checkIfExistInList(data.name, data);
-        outputActualTime(data);
-
-        document.querySelector(".weather").style.display = "block";
-        document.querySelector(".clock").style.display = "block";
-        document.querySelector(".error").style.display = "none";
+        await updateWeatherData(data);
     }
     searchBox.value = "";
+}
+
+function changeForecastData(forecastData) {
+    let num = 1;
+    let day = new Date(forecastData.list[0].dt * 1000).getDate();
+    let month = new Date(forecastData.list[0].dt * 1000).getMonth();
+    let forecastHTML = '';
+
+    for (let i = 0; i < forecastData.cnt - 1; i++) {
+        const fDay = new Date(forecastData.list[i].dt * 1000).getDate();
+        
+        if (fDay !== day) {
+            day = fDay;
+            month = forecastData.list[i].dt_txt.substring(5,7);
+            const formattedDay = `<li id="day${num}">Day: ${day} / ${month} - Temp: ${Math.round(forecastData.list[i].main.temp)}°c - Humidity: ${forecastData.list[i].main.humidity} - Wind: ${forecastData.list[i].wind.speed} km/h</li>`;
+            forecastHTML += formattedDay;
+            num++;
+        }
+    }
+    
+    forecastContainer.innerHTML = forecastHTML;
+}
+
+//Function to get the json of the 5 day forecast of the searched city
+async function checkForecast(lat, lon) {
+    const response = await fetch(apiUrlForecast + lat + `&lon=${lon}&appid=${apiKey}`);
+
+    var data = await response.json();
+
+    console.log(data);
+
+    changeForecastData(data);
 }
 
 //Output the time of the searched city based on the UTC and calculated with de timezone's atribute
@@ -51,6 +74,25 @@ function outputActualTime(data) {
         output.innerHTML = inputCityTime.toFormat("HH:mm:ss");
 
     }, 1000);
+}
+
+async function updateWeatherData(data) {
+    await checkForecast(data.coord.lat, data.coord.lon);
+    changeWeatherData(data);
+    changeWeatherImage(data);
+    checkIfExistInList(data.name, data);
+    outputActualTime(data);
+
+    document.querySelector(".weather").style.display = "block";
+    document.querySelector(".clock").style.display = "block";
+    document.querySelector(".error").style.display = "none";
+}
+
+//If the status is 404, shows a message to the user
+function showError() {
+    document.querySelector(".error").style.display = "block";
+    document.querySelector(".weather").style.display = "none";
+    document.querySelector(".clock").style.display = "none";
 }
 
 //To get the data of the weather from the Json
