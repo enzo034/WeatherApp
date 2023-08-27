@@ -8,32 +8,39 @@
 body {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #000000, #5b548a);
+    background: url(img/background.jpg);
+    background-size: cover;
+    background-position: center;
 }
 
 .grid-container {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center; */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     justify-items: center;
+    grid-template-areas:
+        "forecast card list"
+        "forecast card list"
+        "clock clock clock";
 }
 
 .flexbox-item {
     margin-top: 5vh;
-    background: #8a9ac35d;
-    color: #000000;
+    background: #8996b8;
+    background: transparent;
+    border: 2px solid #8a9ac323;
+    backdrop-filter: blur(20px);
+    color: #fff;
     border-radius: 20px;
     text-align: center;
 }
 
 .card {
     width: 90%;
+    min-width: 440px;
     max-width: 470px;
     padding: 40px 35px;
+    grid-area: card;
 }
 
 .card h1 {
@@ -137,10 +144,13 @@ body {
 }
 
 .clock {
-    width: 250px;
+    width: 270px;
     padding: 5px;
-    height: 90px;
+    height: 95px;
     display: none;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-area: clock;
 }
 
 .clock output {
@@ -151,6 +161,7 @@ body {
     position: relative;
     width: 325px;
     height: fit-content;
+    grid-area: list;
 }
 
 .list ul {
@@ -160,7 +171,6 @@ body {
 
 .list h3 {
     margin: 10px;
-    border: 2px solid #8a9ac35d;
     padding: 8px;
     background: transparent;
     border-radius: 15px;
@@ -186,7 +196,7 @@ body {
 .list button::before {
     content: "Delete all cities";
     position: absolute;
-    bottom: -55px; /* Adjust as needed */
+    bottom: -55px;
     left: 50%;
     transform: translateX(-50%);
     padding: 5px 10px;
@@ -213,8 +223,82 @@ body {
     cursor: pointer;
 }
 
+.forecast
+{
+    width: 90%;
+    min-width: 448px;
+    max-width: 470px;
+    min-height: 653px;
+    display: none;
+    grid-area: forecast;
+}
+
+.forecast h2
+{
+    position: absolute;
+    font-size: 30px;
+    padding: 10px;
+    left: 20%;
+    top: 20px;
+}
+
+.forecast ol
+{
+    list-style: none;
+}
+
+.forecast ol li
+{
+    text-align: left;
+    position: absolute;
+    padding: 15px;
+    background-color: #7e7eaa2a;
+    border-radius: 20px;
+}
+
+#day5
+{
+    top: 80%;
+}
+#day4
+{
+    top: 65%;
+}
+#day3
+{
+    top: 50%;
+}
+#day2
+{
+    top: 35%;
+}
+#day1
+{
+    top: 20%;
+}
+
+@media (max-width: 1100px) {
+    .grid-container {
+        grid-template-columns: repeat(2,1fr);
+        grid-template-areas:
+        "forecast card"
+        "forecast card"
+        "list clock ";
+    }
+}
+
 @media (max-width: 768px) {
     .grid-container {
         grid-template-columns: 1fr;
+        grid-template-areas:
+        "clock"
+        "card"
+        "forecast" 
+        "list ";
+    }
+    .clock
+    {
+        grid-column-start: auto;
+        grid-column-end: auto;
     }
 }
