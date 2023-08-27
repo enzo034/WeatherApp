@@ -15,9 +15,13 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     justify-items: center;
+    grid-template-areas:
+        "forecast card list"
+        "forecast card list"
+        "clock clock clock";
 }
 
 .flexbox-item {
@@ -36,6 +40,7 @@ body {
     min-width: 440px;
     max-width: 470px;
     padding: 40px 35px;
+    grid-area: card;
 }
 
 .card h1 {
@@ -143,6 +148,9 @@ body {
     padding: 5px;
     height: 95px;
     display: none;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-area: clock;
 }
 
 .clock output {
@@ -153,6 +161,7 @@ body {
     position: relative;
     width: 325px;
     height: fit-content;
+    grid-area: list;
 }
 
 .list ul {
@@ -216,10 +225,12 @@ body {
 
 .forecast
 {
-    position: relative;
     width: 90%;
-    min-width: 440px;
+    min-width: 448px;
     max-width: 470px;
+    min-height: 653px;
+    display: none;
+    grid-area: forecast;
 }
 
 .forecast h2
@@ -231,13 +242,6 @@ body {
     top: 20px;
 }
 
-.forecast h2 img
-{
-    position: absolute;
-    width: 35px;
-    left: 100%;
-}
-
 .forecast ol
 {
     list-style: none;
@@ -247,14 +251,15 @@ body {
 {
     text-align: left;
     position: absolute;
-    padding-left: 15px;
+    padding: 15px;
+    background-color: #7e7eaa2a;
+    border-radius: 20px;
 }
 
 #day5
 {
     top: 80%;
 }
-
 #day4
 {
     top: 65%;
@@ -270,12 +275,30 @@ body {
 #day1
 {
     top: 20%;
-
 }
 
+@media (max-width: 1100px) {
+    .grid-container {
+        grid-template-columns: repeat(2,1fr);
+        grid-template-areas:
+        "forecast card"
+        "forecast card"
+        "list clock ";
+    }
+}
 
 @media (max-width: 768px) {
     .grid-container {
         grid-template-columns: 1fr;
+        grid-template-areas:
+        "clock"
+        "card"
+        "forecast" 
+        "list ";
+    }
+    .clock
+    {
+        grid-column-start: auto;
+        grid-column-end: auto;
     }
 }

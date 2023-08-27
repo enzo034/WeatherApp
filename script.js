@@ -1,7 +1,7 @@
 const apiKey = "bfd8982d9bd4680fcb4ad78530593ded";
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-const apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat="; //-34&lon=-64&appid=bfd8982d9bd4680fcb4ad78530593ded";
+const apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=";
 
 const forecastContainer = document.getElementById("forecast-container");
 const listContainer = document.getElementById("list-container");
@@ -29,6 +29,7 @@ async function checkWeather(city) {
     searchBox.value = "";
 }
 
+//Check the 5 days forecast
 function changeForecastData(forecastData) {
     let num = 1;
     let day = new Date(forecastData.list[0].dt * 1000).getDate();
@@ -76,6 +77,7 @@ function outputActualTime(data) {
     }, 1000);
 }
 
+//Change the actual weather, forecast and the messages of the page
 async function updateWeatherData(data) {
     await checkForecast(data.coord.lat, data.coord.lon);
     changeWeatherData(data);
@@ -85,12 +87,14 @@ async function updateWeatherData(data) {
 
     document.querySelector(".weather").style.display = "block";
     document.querySelector(".clock").style.display = "block";
+    document.querySelector(".forecast").style.display = "block";
     document.querySelector(".error").style.display = "none";
 }
 
 //If the status is 404, shows a message to the user
 function showError() {
     document.querySelector(".error").style.display = "block";
+    document.querySelector(".forecast").style.display = "none";
     document.querySelector(".weather").style.display = "none";
     document.querySelector(".clock").style.display = "none";
 }
@@ -147,12 +151,14 @@ searchBtn.addEventListener("click", () => {
     checkWeather(searchBox.value);
 });
 
+//Check the weathe by clicking some city inside of the searched cities list
 listContainer.addEventListener("click", function (e) {
     if (e.target.tagName === "LI") {
         checkWeather(e.target.textContent);
     }
 }, false)
 
+//Delete all the elements of a list
 deleteAllButton.addEventListener("click", () => {
     listContainer.innerHTML = "";
 })
