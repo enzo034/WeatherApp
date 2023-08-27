@@ -8,7 +8,9 @@
 body {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(180deg, #1e1b30, #5b548a);
+    background: url(img/background.jpg);
+    background-size: cover;
+    background-position: center;
 }
 
 .grid-container {
@@ -20,8 +22,11 @@ body {
 
 .flexbox-item {
     margin-top: 5vh;
-    background: #8a9ac323;
-    color: #000000;
+    background: #8996b8;
+    background: transparent;
+    border: 2px solid #8a9ac323;
+    backdrop-filter: blur(20px);
+    color: #fff;
     border-radius: 20px;
     text-align: center;
 }
@@ -134,9 +139,9 @@ body {
 }
 
 .clock {
-    width: 250px;
+    width: 270px;
     padding: 5px;
-    height: 90px;
+    height: 95px;
     display: none;
 }
 
@@ -157,7 +162,6 @@ body {
 
 .list h3 {
     margin: 10px;
-    border: 2px solid #8a9ac35d;
     padding: 8px;
     background: transparent;
     border-radius: 15px;
