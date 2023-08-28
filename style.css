@@ -19,9 +19,9 @@ body {
     gap: 15px;
     justify-items: center;
     grid-template-areas:
-        "forecast card list"
-        "forecast card list"
-        "clock clock clock";
+        "forecast card pollution-data"
+        "forecast card pollution-data"
+        "forecast clock list";
 }
 
 .flexbox-item {
@@ -148,8 +148,6 @@ body {
     padding: 5px;
     height: 95px;
     display: none;
-    grid-column-start: 2;
-    grid-column-end: 3;
     grid-area: clock;
 }
 
@@ -228,7 +226,7 @@ body {
     width: 90%;
     min-width: 448px;
     max-width: 470px;
-    min-height: 653px;
+    max-height: 583px;
     display: none;
     grid-area: forecast;
 }
@@ -238,7 +236,7 @@ body {
     position: absolute;
     font-size: 30px;
     padding: 10px;
-    left: 20%;
+    left: 30%;
     top: 20px;
 }
 
@@ -277,13 +275,52 @@ body {
     top: 20%;
 }
 
+.pullution-data
+{
+    width: 300px;
+    height: 400px;
+    grid-area: pollution-data;
+}
+
+.pullution-data h2
+{
+    padding-top: 10px;
+}
+
+.air-quality-index-img
+{
+    width: 150px;
+}
+
+.pollution-details
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 50px;
+}
+
+.col-p
+{
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.co,.no,.no2,.o3
+{
+    margin-top: -40px;
+}
+
 @media (max-width: 1100px) {
     .grid-container {
         grid-template-columns: repeat(2,1fr);
         grid-template-areas:
         "forecast card"
         "forecast card"
-        "list clock ";
+        "pollution-data clock"
+        "list list";
     }
 }
 
@@ -294,11 +331,7 @@ body {
         "clock"
         "card"
         "forecast" 
-        "list ";
-    }
-    .clock
-    {
-        grid-column-start: auto;
-        grid-column-end: auto;
+        "pollution-data"
+        "list";
     }
 }

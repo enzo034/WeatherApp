@@ -1,7 +1,10 @@
 const apiKey = "bfd8982d9bd4680fcb4ad78530593ded";
+
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
 const apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=";
+
+const apiUrlPollution = "https://api.openweathermap.org/data/2.5/air_pollution?lat=";//-34&lon=-64&appid=bfd8982d9bd4680fcb4ad78530593ded";
 
 const forecastContainer = document.getElementById("forecast-container");
 const listContainer = document.getElementById("list-container");
@@ -29,14 +32,60 @@ async function checkWeather(city) {
     searchBox.value = "";
 }
 
+//Function to get the json of the 5 day forecast of the searched city
+async function checkForecast(lat, lon) {
+    const response = await fetch(apiUrlForecast + lat + `&lon=${lon}&appid=${apiKey}`);
+
+    var data = await response.json();
+
+    console.log(data);
+
+    changeForecastData(data);
+}
+
+//Change the actual weather, forecast and the messages of the page
+async function updateWeatherData(data) {
+    await checkForecast(data.coord.lat, data.coord.lon);
+    await checkPollution(data.coord.lat, data.coord.lon);
+    changeWeatherData(data);
+    changeWeatherImage(data);
+    checkIfExistInList(data.name, data);
+    outputActualTime(data);
+
+    document.querySelector(".weather").style.display = "block";
+    document.querySelector(".clock").style.display = "block";
+    document.querySelector(".forecast").style.display = "block";
+    document.querySelector(".error").style.display = "none";
+}
+
+async function checkPollution(lat, lon)
+{
+    const response = await fetch(apiUrlPollution + lat + `&lon=${lon}&appid=${apiKey}`);
+
+    var data = await response.json();
+
+    console.log(data);
+
+    changePollutionData(data);
+}
+
+function changePollutionData(pollutionData)
+{
+    document.querySelector(".air-quality-index").innerHTML = pollutionData.list[0].main.aqi;
+    document.querySelector(".co").innerHTML = pollutionData.list[0].components.co;
+    document.querySelector(".no").innerHTML = pollutionData.list[0].components.no;
+    document.querySelector(".no2").innerHTML = pollutionData.list[0].components.no2;
+    document.querySelector(".o3").innerHTML = pollutionData.list[0].components.o3;
+}
+
 //Check the 5 days forecast
 function changeForecastData(forecastData) {
     let num = 1;
-    let day = new Date(forecastData.list[0].dt * 1000).getDate();
+    let day = new Date().getDate();
     let month = new Date(forecastData.list[0].dt * 1000).getMonth();
     let forecastHTML = '';
 
-    for (let i = 0; i < forecastData.cnt - 1; i++) {
+    for (let i = 0; i < forecastData.cnt; i++) {
         const fDay = new Date(forecastData.list[i].dt * 1000).getDate();
         
         if (fDay !== day) {
@@ -47,19 +96,7 @@ function changeForecastData(forecastData) {
             num++;
         }
     }
-    
     forecastContainer.innerHTML = forecastHTML;
-}
-
-//Function to get the json of the 5 day forecast of the searched city
-async function checkForecast(lat, lon) {
-    const response = await fetch(apiUrlForecast + lat + `&lon=${lon}&appid=${apiKey}`);
-
-    var data = await response.json();
-
-    console.log(data);
-
-    changeForecastData(data);
 }
 
 //Output the time of the searched city based on the UTC and calculated with de timezone's atribute
@@ -75,20 +112,6 @@ function outputActualTime(data) {
         output.innerHTML = inputCityTime.toFormat("HH:mm:ss");
 
     }, 1000);
-}
-
-//Change the actual weather, forecast and the messages of the page
-async function updateWeatherData(data) {
-    await checkForecast(data.coord.lat, data.coord.lon);
-    changeWeatherData(data);
-    changeWeatherImage(data);
-    checkIfExistInList(data.name, data);
-    outputActualTime(data);
-
-    document.querySelector(".weather").style.display = "block";
-    document.querySelector(".clock").style.display = "block";
-    document.querySelector(".forecast").style.display = "block";
-    document.querySelector(".error").style.display = "none";
 }
 
 //If the status is 404, shows a message to the user
