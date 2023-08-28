@@ -30,7 +30,7 @@ body {
     background: transparent;
     border: 2px solid #8a9ac323;
     backdrop-filter: blur(20px);
-    color: #fff;
+    color: #000;
     border-radius: 20px;
     text-align: center;
 }
@@ -226,6 +226,7 @@ body {
     width: 90%;
     min-width: 448px;
     max-width: 470px;
+    min-height: 583px;
     max-height: 583px;
     display: none;
     grid-area: forecast;
@@ -275,16 +276,27 @@ body {
     top: 20%;
 }
 
-.pullution-data
+.pollution-data
 {
-    width: 300px;
-    height: 400px;
+    width: 90%;
+    max-width: 470px;
+    min-height: 400px;
     grid-area: pollution-data;
+    display: none;
 }
 
-.pullution-data h2
+.pollution-data h2
 {
-    padding-top: 10px;
+    position: relative;
+    padding-top: 40px;
+}
+
+.pollution-data h2 img
+{
+    position: absolute;
+    top: 30px;
+    right: 90px;
+    width: 40px;
 }
 
 .air-quality-index-img
@@ -296,13 +308,17 @@ body {
 {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     padding: 0 20px;
     margin-top: 50px;
 }
 
 .col-p
 {
+    background-color: #7e7eaa2a;
+    border-radius: 15px;
+    padding: 5px;
+    position: relative;
     display: flex;
     align-items: center;
     text-align: left;
@@ -310,8 +326,100 @@ body {
 
 .co,.no,.no2,.o3
 {
-    margin-top: -40px;
+    padding: 10px;
+    position: absolute;
+    top: 40px;
+    left: -5px;
 }
+
+.co::before {
+    content: 'Concentration of Carbon Monoxide';
+    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.co:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.no::before {
+    content: 'Concentration of Nitrogen Monoxide';
+    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.no:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.no2::before {
+    content: 'Concentration of Nitrogen Dioxide';
+    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.no2:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.o3::before {
+    content: 'Concentration of Ozone';
+    text-align: center;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.o3:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
 
 @media (max-width: 1100px) {
     .grid-container {

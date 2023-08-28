@@ -13,6 +13,7 @@ const deleteAllButton = document.getElementById("delete-all");
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
+const airQualityIcon = document.querySelector(".air-quality-index-img");
 
 let intervalId;
 
@@ -53,6 +54,7 @@ async function updateWeatherData(data) {
     outputActualTime(data);
 
     document.querySelector(".weather").style.display = "block";
+    document.querySelector(".pollution-data").style.display = "block"
     document.querySelector(".clock").style.display = "block";
     document.querySelector(".forecast").style.display = "block";
     document.querySelector(".error").style.display = "none";
@@ -71,11 +73,20 @@ async function checkPollution(lat, lon)
 
 function changePollutionData(pollutionData)
 {
-    document.querySelector(".air-quality-index").innerHTML = pollutionData.list[0].main.aqi;
+    document.querySelector(".air-quality-index").innerHTML = changeTextAirQuality(pollutionData.list[0].main.aqi);
     document.querySelector(".co").innerHTML = pollutionData.list[0].components.co;
     document.querySelector(".no").innerHTML = pollutionData.list[0].components.no;
     document.querySelector(".no2").innerHTML = pollutionData.list[0].components.no2;
     document.querySelector(".o3").innerHTML = pollutionData.list[0].components.o3;
+}
+
+function changeTextAirQuality(airQuality)
+{
+    if(airQuality == "1") { airQualityIcon.src ="img/good.png";  return "Good"; }
+    else if(airQuality == "2") {airQualityIcon.src ="img/fair.png"; return "Fair";}
+    else if(airQuality == "3") {airQualityIcon.src = "img/moderate.png"; return "Moderate";}
+    else if(airQuality == "4") {airQualityIcon.src = "img/poor.png"; return "Poor";}
+    else if(airQuality == "5") {airQualityIcon.src = "img/verypoor.png"; return "Very Poor";}
 }
 
 //Check the 5 days forecast
@@ -117,6 +128,7 @@ function outputActualTime(data) {
 //If the status is 404, shows a message to the user
 function showError() {
     document.querySelector(".error").style.display = "block";
+    document.querySelector(".pollution-data").style.display = "none"
     document.querySelector(".forecast").style.display = "none";
     document.querySelector(".weather").style.display = "none";
     document.querySelector(".clock").style.display = "none";
@@ -146,8 +158,21 @@ function addCityToList(data) {
     li.innerHTML = data.name;
 
     listContainer.appendChild(li);
-
+    saveDataList();
 }
+
+//Save data to the local storage when you search a city
+function saveDataList()
+{
+    localStorage.setItem("data", listContainer.innerHTML);
+}
+
+//Show the data of the local storage in the list
+function showDataList()
+{
+    listContainer.innerHTML = localStorage.getItem("data");
+}
+showDataList();
 
 //Check if the city exists in the previous searched cities, if true, the function delete the old one
 function checkIfExistInList(input, data) {
@@ -184,4 +209,5 @@ listContainer.addEventListener("click", function (e) {
 //Delete all the elements of a list
 deleteAllButton.addEventListener("click", () => {
     listContainer.innerHTML = "";
+    localStorage.clear();
 })
