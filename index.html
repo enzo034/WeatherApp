@@ -12,7 +12,7 @@
 
     <div class="grid-container">
         <div class="flexbox-item forecast">
-            <h2>5 day forecast &#127782;</h2>
+            <h2>Forecast &#127782;</h2>
             <ol id="forecast-container">
                 <li id="day1"></li>
                 <li id="day2"></li>
@@ -32,35 +32,61 @@
             </div>
             <div class="weather">
                 <img src="img/rain.png" class="weather-icon">
-                <h1 class="temp">22°c</h1>
-                <h2 class="city">New Tork</h2>
+                <h2 class="temp"></h2>
+                <h2 class="city"></h2>
                 <div class="details">
                     <div class="col">
                         <img src="img/humidity.png">
                         <div>
-                            <p class="humidity">50%</p>
+                            <p class="humidity"></p>
                             <p>Humidity</p>
                         </div>
                     </div>
                     <div class="col">
                         <img src="img/wind.png">
                         <div>
-                            <p class="wind">15 km/h</p>
+                            <p class="wind"></p>
                             <p>Wind Speed</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="flexbox-item list">
-            <h3>Previous searched cities</h3>
-            <button id="delete-all">&#9932;</button>
-            <ul id="list-container"> 
-            </ul>
+        <div class="flexbox-item pollution-data">
+            <h2>Air pollution <img src="img/pollution.svg"></h2>
+            <div class="air-quality">
+                <img src="" class="air-quality-index-img">
+                <p>Air Quality Index</p>
+                <p class="air-quality-index"></p>
+            </div>
+            <div class="pollution-details">
+                <div class="col-p">
+                    <p class="co"></p>
+                    <p>CO</p>
+                </div>
+                <div class="col-p">
+                    <p class="no"></p>
+                    <p>NO</p>
+                </div>
+                <div class="col-p">
+                    <p class="no2"></p>
+                    <p>NO2</p>
+                </div>
+                <div class="col-p">
+                    <p class="o3"></p>
+                    <p>O3</p>
+                </div>
+            </div>
         </div>
         <div class="flexbox-item clock">
             <p>Time in the searched city</p>
             <output></output>
+        </div>
+        <div class="flexbox-item list">
+            <h3>Previous searched cities</h3>
+            <button id="delete-all">&#9932;</button>
+            <ul id="list-container">
+            </ul>
         </div>
     </div>
 
