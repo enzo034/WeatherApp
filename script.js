@@ -4,7 +4,9 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 
 const apiUrlForecast = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=";
 
-const apiUrlPollution = "https://api.openweathermap.org/data/2.5/air_pollution?lat=";//-34&lon=-64&appid=bfd8982d9bd4680fcb4ad78530593ded";
+const apiUrlPollution = "https://api.openweathermap.org/data/2.5/air_pollution?lat=";
+
+const apiUrlWCountryCode = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="; //Misiones,ar&appid=bfd8982d9bd4680fcb4ad78530593ded";
 
 const forecastContainer = document.getElementById("forecast-container");
 const listContainer = document.getElementById("list-container");
@@ -12,15 +14,21 @@ const deleteAllButton = document.getElementById("delete-all");
 
 const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
+const searchCCBox = document.querySelector("#searchCC");
 const weatherIcon = document.querySelector(".weather-icon");
 const airQualityIcon = document.querySelector(".air-quality-index-img");
 
 let intervalId;
 
 //Main function to check the weather
-async function checkWeather(city) {
+async function checkWeather(city, countryCode) {
 
-    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    let response;
+    if (countryCode !== "") {
+        response = await fetch(`${apiUrl}${city},${countryCode}&appid=${apiKey}`);
+    } else {
+        response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
+    }
 
     if (response.status == 404) {
         showError();
@@ -31,6 +39,7 @@ async function checkWeather(city) {
         await updateWeatherData(data);
     }
     searchBox.value = "";
+    searchCCBox.value = "";
 }
 
 //Function to get the json of the 5 day forecast of the searched city
@@ -60,8 +69,7 @@ async function updateWeatherData(data) {
     document.querySelector(".error").style.display = "none";
 }
 
-async function checkPollution(lat, lon)
-{
+async function checkPollution(lat, lon) {
     const response = await fetch(apiUrlPollution + lat + `&lon=${lon}&appid=${apiKey}`);
 
     var data = await response.json();
@@ -71,8 +79,7 @@ async function checkPollution(lat, lon)
     changePollutionData(data);
 }
 
-function changePollutionData(pollutionData)
-{
+function changePollutionData(pollutionData) {
     document.querySelector(".air-quality-index").innerHTML = changeTextAirQuality(pollutionData.list[0].main.aqi);
     document.querySelector(".co").innerHTML = pollutionData.list[0].components.co;
     document.querySelector(".no").innerHTML = pollutionData.list[0].components.no;
@@ -80,13 +87,12 @@ function changePollutionData(pollutionData)
     document.querySelector(".o3").innerHTML = pollutionData.list[0].components.o3;
 }
 
-function changeTextAirQuality(airQuality)
-{
-    if(airQuality == "1") { airQualityIcon.src ="img/good.png";  return "Good"; }
-    else if(airQuality == "2") {airQualityIcon.src ="img/fair.png"; return "Fair";}
-    else if(airQuality == "3") {airQualityIcon.src = "img/moderate.png"; return "Moderate";}
-    else if(airQuality == "4") {airQualityIcon.src = "img/poor.png"; return "Poor";}
-    else if(airQuality == "5") {airQualityIcon.src = "img/verypoor.png"; return "Very Poor";}
+function changeTextAirQuality(airQuality) {
+    if (airQuality == "1") { airQualityIcon.src = "img/good.png"; return "Good"; }
+    else if (airQuality == "2") { airQualityIcon.src = "img/fair.png"; return "Fair"; }
+    else if (airQuality == "3") { airQualityIcon.src = "img/moderate.png"; return "Moderate"; }
+    else if (airQuality == "4") { airQualityIcon.src = "img/poor.png"; return "Poor"; }
+    else if (airQuality == "5") { airQualityIcon.src = "img/verypoor.png"; return "Very Poor"; }
 }
 
 //Check the 5 days forecast
@@ -98,10 +104,10 @@ function changeForecastData(forecastData) {
 
     for (let i = 0; i < forecastData.cnt; i++) {
         const fDay = new Date(forecastData.list[i].dt * 1000).getDate();
-        
+
         if (fDay !== day) {
             day = fDay;
-            month = forecastData.list[i].dt_txt.substring(5,7);
+            month = forecastData.list[i].dt_txt.substring(5, 7);
             const formattedDay = `<li id="day${num}">Day: ${day} / ${month} - Temp: ${Math.round(forecastData.list[i].main.temp)}°c - Humidity: ${forecastData.list[i].main.humidity} - Wind: ${forecastData.list[i].wind.speed} km/h</li>`;
             forecastHTML += formattedDay;
             num++;
@@ -136,7 +142,7 @@ function showError() {
 
 //To get the data of the weather from the Json
 function changeWeatherData(data) {
-    document.querySelector(".city").innerHTML = data.name;
+    document.querySelector(".city").innerHTML = data.name + ", " + data.sys.country;
     document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
     document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
@@ -155,21 +161,19 @@ function changeWeatherImage(data) {
 function addCityToList(data) {
     let li = document.createElement("li");
 
-    li.innerHTML = data.name;
+    li.innerHTML = data.name + ", " + data.sys.country;
 
     listContainer.appendChild(li);
     saveDataList();
 }
 
 //Save data to the local storage when you search a city
-function saveDataList()
-{
+function saveDataList() {
     localStorage.setItem("data", listContainer.innerHTML);
 }
 
 //Show the data of the local storage in the list
-function showDataList()
-{
+function showDataList() {
     listContainer.innerHTML = localStorage.getItem("data");
 }
 showDataList();
@@ -190,19 +194,27 @@ function checkIfExistInList(input, data) {
 searchBox.addEventListener("keypress", function (e) {
     if (e.key == "Enter") {
         e.preventDefault();
-        checkWeather(searchBox.value);
+        checkWeather(searchBox.value, searchCCBox.value);
+    }
+})
+
+searchCCBox.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        checkWeather(searchBox.value, searchCCBox.value);
     }
 })
 
 //To search with a click in the icon
 searchBtn.addEventListener("click", () => {
-    checkWeather(searchBox.value);
+    checkWeather(searchBox.value, searchCCBox.value);
 });
 
 //Check the weathe by clicking some city inside of the searched cities list
 listContainer.addEventListener("click", function (e) {
     if (e.target.tagName === "LI") {
-        checkWeather(e.target.textContent);
+        var separateContent = e.target.textContent.split(",");
+        checkWeather(separateContent[0], separateContent[1]);
     }
 }, false)
 
